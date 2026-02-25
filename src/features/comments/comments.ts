@@ -33,10 +33,12 @@ export const commentsSlice = createSlice({
   extraReducers(builder) {
     builder.addCase(loadPostComments.pending, state => {
       state.loaded = false;
+      state.hasError = false;
     });
     builder.addCase(loadPostComments.fulfilled, (state, action) => {
       state.items = action.payload;
       state.loaded = true;
+      state.hasError = false;
     });
     builder.addCase(loadPostComments.rejected, state => {
       state.hasError = true;

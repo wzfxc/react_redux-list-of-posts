@@ -10,8 +10,7 @@ import { PostDetails } from './components/PostDetails';
 import { UserSelector } from './components/UserSelector';
 import { Loader } from './components/Loader';
 import { useAppDispatch, useAppSelector } from './app/hooks';
-import { usersSlice } from './features/users/users';
-import { getUsers } from './api/users';
+import { loadUsers } from './features/users/users';
 import { selectedPostSlice } from './features/selectedPost/selectedPost';
 import { loadUserPosts, postsSlice } from './features/posts/posts';
 
@@ -37,7 +36,7 @@ export const App: React.FC = () => {
   }, [author, dispatch]);
 
   useEffect(() => {
-    getUsers().then(users => dispatch(usersSlice.actions.setUsers(users)));
+    dispatch(loadUsers());
   }, [dispatch]);
 
   return (

@@ -24,10 +24,12 @@ export const usersSlice = createSlice({
   extraReducers(builder) {
     builder.addCase(loadUsers.pending, state => {
       state.loading = true;
+      state.error = '';
     });
     builder.addCase(loadUsers.fulfilled, (state, action) => {
       state.users = action.payload;
       state.loading = false;
+      state.error = '';
     });
     builder.addCase(loadUsers.rejected, state => {
       state.error = 'error';
