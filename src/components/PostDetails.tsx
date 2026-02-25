@@ -17,6 +17,7 @@ export const PostDetails: React.FC<Props> = ({ post }) => {
   const comments = useAppSelector(state => state.comments.items);
   const loaded = useAppSelector(state => state.comments.loaded);
   const hasError = useAppSelector(state => state.comments.hasError);
+  const previousComments = useAppSelector(state => state.comments.items);
   const [visible, setVisible] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -74,12 +75,13 @@ export const PostDetails: React.FC<Props> = ({ post }) => {
   };
 
   const deleteComment = async (commentId: number) => {
-    // we delete the comment immediately so as
-    // not to make the user wait long for the actual deletion
-    // eslint-disable-next-line max-len
     dispatch(commentsSlice.actions.deleteComment(commentId));
 
-    await commentsApi.deleteComment(commentId);
+    try {
+      await commentsApi.deleteComment(commentId);
+    } catch {
+      dispatch(commentsSlice.actions.setComments(previousComments));
+    }
   };
 
   return (
